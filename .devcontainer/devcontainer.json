@@ -1,0 +1,19 @@
+{
+    "name": "Sudhir's Sovereign Data Systems Workstation",
+    "image": "://microsoft.com",
+    
+    // 🔑 AUTOMATED DEPENDENCY MOUNTING GATES
+    "postCreateCommand": "pip install pandas playwright && python -m playwright install chromium",
+    
+    // 🔌 PREMIUM ARCHITECT DEV-ENVIRONMENT EXTENSIONS
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "mhutchie.git-graph",
+                "christian-kohler.path-intellisense"
+            ]
+        }
+    }
+}
