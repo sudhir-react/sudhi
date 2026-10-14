@@ -1,8 +1,18 @@
 console.log(5 >= 5);
+console.log(5 == 5);
 console.log(5 === 5);
 console.log(5 === 6);
 console.log(5 === "5");
+console.log(0 == false);
+console.log(0 === false);
+console.log(1 == '1');
+console.log(0 === '1');
+console.log(null == undefined);
+console.log(null === undefined);
+console.log("0" == false);
+console.log("0" === false);
 
+// The == just check the value, === check both the value and the type.
 
 console.log(2 > 1);
 console.log(2 >= 1);
