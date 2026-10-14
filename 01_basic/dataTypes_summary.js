@@ -38,3 +38,25 @@ console.log(typeof scoreValue);
 console.log(typeof myFunction);
 console.log(typeof heros);
 console.log(typeof id);
+
+
+
+// Stack (Primitive), Heap(Non-primitive)
+let myChannelName = "Sudhir.com"
+let  anotherName = myChannelName
+anotherName = "koffi with sk"
+console.log(myChannelName);
+console.log(anotherName);
+
+
+
+let userOne = {
+    email: "user@google.com",
+    upi: "user@ybl"
+}
+
+let userTwo = userOne
+userTwo.email = "sk@gmail.com"
+
+console.log(userOne.email);
+console.log(userTwo.email);
