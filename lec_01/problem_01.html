@@ -1,0 +1,39 @@
+<!-- For the given HTML file, you need to perform the following tasks;
+
+1-You should embed the external JS file inside the head section using a script tag in the following way: 
+
+
+    <script  src = "index.js" ></script>
+
+2- You also need to add a script tag in the body section and the head section. 
+
+
+3-You need to  print the console message which should get executed from 3 places i.e. from the head section, from the body section, and the external JS file.  -->
+<!-- Expected Output:
+"This code is executed from the head section of the HTML page."
+"This code is executed from the body section of the HTML page"
+"This message is executed from the external JS file" -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Console Log Example</title>
+    <!-- write your code here to console the message from head and external file-->
+      <!-- <script src="index.js"></script> -->
+  <script>
+    console.log("This code is executed from the head section of the HTML page.");
+  </script>
+  </head>
+  <body>
+    <h1>Console Log Example</h1>
+    <script>
+    console.log("This is from the body section");
+  </script>
+      <script>
+    // This script will be executed after the page has loaded
+    alert("This code is executed from the body section of the HTML page");
+  </script>
+    <!-- write your code here to console out message from the body of html file -->
+    <script src="problem_o1.js"></script>
+  </body>
+</html>

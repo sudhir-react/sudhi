@@ -1,0 +1,1 @@
+console.log("This message is executed from the external JS file");
