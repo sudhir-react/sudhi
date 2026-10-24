@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DSA was HARD until I learned these 15 PATTERNS | sudhir-react</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: '#38bdf8',
+            darkBg: '#090a0f',
+            cardBg: '#11131c',
+            cardBorder: '#1e2433',
+            neonGreen: '#10b981',
+            neonOrange: '#f97316',
+            neonPink: '#f43f5e',
+            neonCyan: '#06b6d4',
+            neonYellow: '#eab308',
+            neonPurple: '#a855f7',
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #07090e;
+      color: #e2e8f0;
+    }
+    
+    .glow-brand {
+      text-shadow: 0 0 16px rgba(56, 189, 248, 0.75), 0 0 35px rgba(56, 189, 248, 0.35);
+    }
+    .glow-badge {
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.3), inset 0 0 15px rgba(16, 185, 129, 0.2);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 9999px;
+    }
+    .cell-transition {
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#07090e] text-slate-100 flex flex-col items-center selection:bg-sky-500/30 selection:text-sky-300">
+
+  <!-- Background decorative glows -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+    <div class="absolute -top-40 left-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/3 -right-20 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-10 left-10 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl"></div>
+  </div>
+
+  <!-- Header Section -->
+  <header class="w-full max-w-7xl px-4 pt-8 pb-6 flex flex-col items-center relative">
+    <!-- Top Right sudhir-react Branded Tag -->
+    <div class="w-full flex justify-end items-center mb-2">
+      <a href="#branding" class="group flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 hover:border-sky-400 transition-all shadow-[0_0_20px_rgba(56,189,248,0.25)] hover:shadow-[0_0_25px_rgba(56,189,248,0.45)]">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="font-mono text-sm tracking-wider font-bold text-sky-300 group-hover:text-white transition-colors glow-brand">
+          Sudhir-React
+        </span>
+        <span class="text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-400/30">PRO</span>
+      </a>
+    </div>
+
+    <!-- Main Title matching infographic style -->
+    <h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-center tracking-tight text-white flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+      <span>DSA was</span>
+      <span class="text-rose-500 line-through decoration-rose-400 decoration-4">HARD</span>
+      <span>until I learned these</span>
+    </h1>
+
+    <div class="mt-4 inline-flex items-center justify-center">
+      <div class="px-7 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-black text-2xl md:text-3xl tracking-wide uppercase shadow-[0_0_30px_rgba(16,185,129,0.5)] glow-badge flex items-center gap-3">
+        <span>15 PATTERNS</span>
+      </div>
+    </div>
+
+    <!-- Interactive Global Controls Bar -->
+    <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+      <button id="toggle-all-btn" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-slate-700 flex items-center gap-2 transition-all">
+        <i data-lucide="pause" class="w-3.5 h-3.5" id="global-pause-icon"></i>
+        <span id="global-pause-text">Pause All Animations</span>
+      </button>
+      <button id="reset-all-btn" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-slate-700 flex items-center gap-2 transition-all">
+        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+        <span>Restart Visualizations</span>
+      </button>
+      <span class="text-xs text-slate-400 font-mono hidden sm:inline-block">| Author: <span class="text-sky-400 font-bold">@https://github.com/sudhir-react</span></span>
+    </div>
+  </header>
+
+  <!-- 15 Patterns Grid -->
+  <main class="w-full max-w-7xl px-4 py-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <!-- Card 1: Two Pointers -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-sky-500/50 transition-all shadow-lg hover:shadow-sky-500/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-sky-400 flex items-center gap-2">
+          <span>1. Two Pointers</span>
+        </h2>
+        <span class="text-[11px] font-mono text-slate-400">O(n) time • O(1) space</span>
+      </div>
+
+      <!-- Canvas / Visual area -->
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-3 relative select-none">
+        <!-- Watermark -->
+        <span class="absolute bottom-1 right-2 text-[10px] font-mono text-slate-600/60 font-semibold tracking-wider">sudhir-react</span>
+        
+        <!-- Array display -->
+        <div id="c1-array" class="flex gap-2 relative z-10">
+          <!-- Filled by JS -->
+        </div>
+
+        <!-- Pointer guides -->
+        <div class="w-full max-w-[280px] flex justify-between mt-4 px-2 font-mono text-xs font-bold">
+          <div id="c1-l-indicator" class="text-emerald-400 flex items-center gap-1 transition-all duration-300">
+            <span>↑ L →</span>
+          </div>
+          <div id="c1-r-indicator" class="text-rose-400 flex items-center gap-1 transition-all duration-300">
+            <span>← R ↑</span>
+          </div>
+        </div>
+
+        <div id="c1-info" class="mt-2 text-xs font-mono text-slate-400">Target Sum: 16 (Checking...)</div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: Sorted arrays, pair sums, palindromes</span>
+        <button onclick="triggerCard(1)" class="p-1.5 hover:text-sky-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 2: Sliding Window -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-amber-500/50 transition-all shadow-lg hover:shadow-amber-500/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+          <span>2. Sliding Window</span>
+        </h2>
+        <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 font-bold">k = 3</span>
+      </div>
+
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-3 relative select-none">
+        <span class="absolute bottom-1 right-2 text-[10px] font-mono text-slate-600/60 font-semibold tracking-wider">sudhir-react</span>
+        
+        <div id="c2-container" class="relative flex gap-2">
+          <!-- Window bounding box highlight overlay -->
+          <div id="c2-window-box" class="absolute -top-1.5 -bottom-1.5 border-2 border-amber-400 rounded-lg bg-amber-400/15 transition-all duration-500 pointer-events-none shadow-[0_0_12px_rgba(251,191,36,0.3)]"></div>
+          <!-- Numbers generated in JS -->
+        </div>
+
+        <div class="mt-4 flex items-center gap-2 font-mono text-xs">
+          <span class="text-slate-400">slide →</span>
+          <span id="c2-sum-badge" class="px-2 py-0.5 rounded bg-slate-800 text-amber-300 font-bold">Sum: 8</span>
+          <span id="c2-max-badge" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold">Max: 8</span>
+        </div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: Substrings, sub-arrays, max sum of size k</span>
+        <button onclick="triggerCard(2)" class="p-1.5 hover:text-amber-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 3: Binary Search -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-emerald-500/50 transition-all shadow-lg hover:shadow-emerald-500/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-emerald-400 flex items-center gap-2">
+          <span>3. Binary Search</span>
+        </h2>
+        <span class="text-[11px] font-mono text-slate-400">O(log n)</span>
+      </div>
+
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-3 relative select-none">
+        <span class="absolute bottom-1 right-2 text-[10px] font-mono text-slate-600/60 font-semibold tracking-wider">sudhir-react</span>
+        
+        <div id="c3-array" class="flex gap-1.5">
+          <!-- Populated by JS -->
+        </div>
+
+        <div id="c3-labels" class="flex gap-1.5 mt-2 font-mono text-xs font-bold">
+          <!-- Indicators L, M, R -->
+        </div>
+
+        <div id="c3-status" class="mt-2 text-xs font-mono text-emerald-300/90">Searching target: 9</div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: Sorted arrays, search space pruning</span>
+        <button onclick="triggerCard(3)" class="p-1.5 hover:text-emerald-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 4: Frequency Counting -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-purple-500/50 transition-all shadow-lg hover:shadow-purple-500/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-purple-400 flex items-center gap-2">
+          <span>4. Frequency Counting</span>
+        </h2>
+        <span class="text-[11px] font-mono text-slate-400">Hash Map</span>
+      </div>
+
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-2 relative select-none">
+        <span class="absolute bottom-1 right-2 text-[10px] font-mono text-slate-600/60 font-semibold tracking-wider">sudhir-react</span>
+        
+        <!-- Stream of characters -->
+        <div id="c4-stream" class="flex gap-2 mb-2"></div>
+
+        <!-- Hash table -->
+        <div class="w-36 rounded-md border border-cyan-500/40 bg-slate-900/90 overflow-hidden text-xs font-mono">
+          <div class="grid grid-cols-2 bg-cyan-950/60 text-cyan-300 font-bold px-2 py-0.5 border-b border-cyan-500/30 text-center">
+            <span>Key</span><span>Count</span>
+          </div>
+          <div id="c4-table-body" class="divide-y divide-slate-800">
+            <!-- Table rows -->
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: Anagrams, duplicates, majority elements</span>
+        <button onclick="triggerCard(4)" class="p-1.5 hover:text-purple-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 5: Matrix Traversal -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-amber-400/50 transition-all shadow-lg hover:shadow-amber-400/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-amber-300 flex items-center gap-2">
+          <span>5. Matrix Traversal</span>
+        </h2>
+        <span class="text-[11px] font-mono text-slate-400">Spiral Order</span>
+      </div>
+
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-2 relative select-none">
+        <span class="absolute bottom-1 right-2 text-[10px] font-mono text-slate-600/60 font-semibold tracking-wider">sudhir-react</span>
+        
+        <!-- 4x4 Grid -->
+        <div id="c5-grid" class="grid grid-cols-4 gap-1.5 p-1 bg-slate-900/80 rounded-lg border border-slate-800">
+          <!-- 16 cells -->
+        </div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: Island counting, flood fill, matrix rotations</span>
+        <button onclick="triggerCard(5)" class="p-1.5 hover:text-amber-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 6: Monotonic Stack -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-rose-400/50 transition-all shadow-lg hover:shadow-rose-400/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-rose-400 flex items-center gap-2">
+          <span>6. Monotonic Stack</span>
+        </h2>
+        <span class="text-[11px] font-mono text-slate-400">Next Greater</span>
+      </div>
+
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-2 relative select-none">
+        <span class="absolute bottom-1 right-2 text-[10px] font-mono text-slate-600/60 font-semibold tracking-wider">sudhir-react</span>
+        
+        <div class="text-[11px] text-slate-400 mb-1">input array:</div>
+        <div id="c6-input" class="flex gap-2 mb-3"></div>
+
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-mono text-sky-400 font-bold">top →</span>
+          <div id="c6-stack" class="flex gap-1.5 p-1.5 bg-slate-900 border border-sky-500/40 rounded-lg min-w-[100px] justify-center">
+            <!-- Stack elements -->
+          </div>
+          <span class="text-[11px] font-mono text-slate-400">stack</span>
+        </div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: Daily temperatures, largest histogram, stock span</span>
+        <button onclick="triggerCard(6)" class="p-1.5 hover:text-rose-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 7: Prefix Sum -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-cyan-400/50 transition-all shadow-lg hover:shadow-cyan-400/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-cyan-400 flex items-center gap-2">
+          <span>7. Prefix Sum</span>
+        </h2>
+        <span class="text-[11px] font-mono text-slate-400">O(1) Range Queries</span>
+      </div>
+
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-2 relative select-none">
+        <span class="absolute bottom-1 right-2 text-[10px] font-mono text-slate-600/60 font-semibold tracking-wider">sudhir-react</span>
+        
+        <div class="text-[11px] font-mono text-slate-400 mb-1">nums:</div>
+        <div id="c7-nums" class="flex gap-2 mb-2"></div>
+        <div class="text-[10px] font-mono text-emerald-400 mb-1">↓ cumulative build</div>
+        <div id="c7-prefix" class="flex gap-2"></div>
+        <div class="text-[10px] font-mono text-slate-500 mt-1">prefix sum</div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: Subarray sum equals k, range sum query</span>
+        <button onclick="triggerCard(7)" class="p-1.5 hover:text-cyan-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 8: Overlapping Intervals -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-pink-500/50 transition-all shadow-lg hover:shadow-pink-500/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-pink-400 flex items-center gap-2">
+          <span>8. Overlapping Intervals</span>
+        </h2>
+        <span class="text-[11px] font-mono text-slate-400">Interval Merge</span>
+      </div>
+
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-2 relative select-none">
+        <!-- Prominent watermark replacement -->
+        <span class="absolute inset-0 flex items-center justify-center text-sm font-mono text-sky-400/20 font-black pointer-events-none tracking-widest uppercase">
+          sudhir-react
+        </span>
+
+        <div id="c8-display" class="flex flex-col items-center gap-2 z-10 w-full px-4">
+          <!-- Animated interval bars -->
+        </div>
+
+        <div id="c8-status" class="mt-2 text-xs font-mono text-pink-300 font-semibold z-10">↓ merge overlap</div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: Meeting rooms, calendar conflicts, insert interval</span>
+        <button onclick="triggerCard(8)" class="p-1.5 hover:text-pink-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 9: Greedy -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-sky-400/50 transition-all shadow-lg hover:shadow-sky-400/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-sky-400 flex items-center gap-2">
+          <span>9. Greedy</span>
+        </h2>
+        <span class="text-[11px] font-mono text-amber-300">target = 40</span>
+      </div>
+
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-2 relative select-none">
+        <span class="absolute bottom-1 right-2 text-[10px] font-mono text-slate-600/60 font-semibold tracking-wider">sudhir-react</span>
+        
+        <div id="c9-coins" class="flex gap-2.5 mb-2">
+          <!-- Available coins: 25, 10, 5, 1 -->
+        </div>
+
+        <div class="text-[11px] font-mono text-slate-400 mb-1">↓ pick largest that fits</div>
+
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-mono text-slate-400">used:</span>
+          <div id="c9-picked" class="flex gap-2 min-h-[30px] items-center">
+            <!-- Picked coins -->
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: Activity selection, gas stations, jump game</span>
+        <button onclick="triggerCard(9)" class="p-1.5 hover:text-sky-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 10: Top K Elements -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-orange-500/50 transition-all shadow-lg hover:shadow-orange-500/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-orange-400 flex items-center gap-2">
+          <span>10. Top K Elements</span>
+        </h2>
+        <span class="text-[11px] font-mono text-slate-400">min-heap • K = 3</span>
+      </div>
+
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-2 relative select-none">
+        <span class="absolute bottom-1 right-2 text-[10px] font-mono text-slate-600/60 font-semibold tracking-wider">sudhir-react</span>
+        
+        <!-- Min heap tree svg visual -->
+        <div class="relative w-44 h-24">
+          <svg class="absolute inset-0 w-full h-full stroke-slate-700" stroke-width="2">
+            <line x1="88" y1="20" x2="48" y2="48" />
+            <line x1="88" y1="20" x2="128" y2="48" />
+            <line x1="48" y1="48" x2="28" y2="76" />
+            <line x1="48" y1="48" x2="68" y2="76" />
+          </svg>
+          <div id="c10-node-1" class="absolute left-[76px] top-1 w-6 h-6 rounded-full border-2 border-purple-400 bg-purple-950/80 text-[11px] font-mono font-bold flex items-center justify-center text-purple-200">1</div>
+          <div id="c10-node-2" class="absolute left-[36px] top-9 w-6 h-6 rounded-full border-2 border-emerald-400 bg-emerald-950/80 text-[11px] font-mono font-bold flex items-center justify-center text-emerald-200">3</div>
+          <div id="c10-node-3" class="absolute left-[116px] top-9 w-6 h-6 rounded-full border-2 border-emerald-400 bg-emerald-950/80 text-[11px] font-mono font-bold flex items-center justify-center text-emerald-200">2</div>
+          <div id="c10-node-4" class="absolute left-[16px] top-16 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 text-[10px] font-mono flex items-center justify-center text-slate-400">7</div>
+          <div id="c10-node-5" class="absolute left-[56px] top-16 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 text-[10px] font-mono flex items-center justify-center text-slate-400">5</div>
+        </div>
+
+        <div class="mt-2 flex items-center gap-2">
+          <span class="text-[11px] font-mono text-slate-400">top K:</span>
+          <div id="c10-bucket" class="flex gap-1.5 font-mono text-xs">
+            <span class="w-6 h-6 rounded border border-orange-500/50 bg-orange-500/10 flex items-center justify-center text-orange-300 font-bold">7</span>
+            <span class="w-6 h-6 rounded border border-orange-500/50 bg-orange-500/10 flex items-center justify-center text-orange-300 font-bold">5</span>
+            <span class="w-6 h-6 rounded border border-orange-500/50 bg-orange-500/10 flex items-center justify-center text-orange-300 font-bold">3</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: Kth largest, top frequent words, median stream</span>
+        <button onclick="triggerCard(10)" class="p-1.5 hover:text-orange-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 11: Backtracking -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-emerald-400/50 transition-all shadow-lg hover:shadow-emerald-400/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-emerald-400 flex items-center gap-2">
+          <span>11. Backtracking</span>
+        </h2>
+        <span class="text-[11px] font-mono text-slate-400">State Space Search</span>
+      </div>
+
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-2 relative select-none">
+        <span class="absolute bottom-1 right-2 text-[10px] font-mono text-slate-600/60 font-semibold tracking-wider">sudhir-react</span>
+        
+        <!-- Decision Tree Visual -->
+        <div class="relative w-52 h-28">
+          <svg class="absolute inset-0 w-full h-full stroke-slate-700" stroke-width="2">
+            <line x1="104" y1="18" x2="60" y2="54" />
+            <line x1="104" y1="18" x2="148" y2="54" />
+            <line x1="60" y1="54" x2="38" y2="92" />
+            <line x1="60" y1="54" x2="82" y2="92" />
+            <line x1="148" y1="54" x2="126" y2="92" />
+            <line x1="148" y1="54" x2="170" y2="92" />
+          </svg>
+          <div id="bt-node-0" class="absolute left-[92px] top-1 w-6 h-6 rounded-full border-2 border-cyan-400 bg-cyan-950 flex items-center justify-center"></div>
+          <div id="bt-node-1" class="absolute left-[48px] top-10 w-6 h-6 rounded-full border border-slate-700 bg-slate-900 flex items-center justify-center"></div>
+          <div id="bt-node-2" class="absolute left-[136px] top-10 w-6 h-6 rounded-full border border-slate-700 bg-slate-900 flex items-center justify-center"></div>
+          <div id="bt-node-3" class="absolute left-[26px] top-20 w-6 h-6 rounded-full border border-slate-700 bg-slate-900 flex items-center justify-center"></div>
+          <div id="bt-node-4" class="absolute left-[70px] top-20 w-6 h-6 rounded-full border border-slate-700 bg-slate-900 flex items-center justify-center"></div>
+          <div id="bt-node-5" class="absolute left-[114px] top-20 w-6 h-6 rounded-full border border-slate-700 bg-slate-900 flex items-center justify-center"></div>
+          <div id="bt-node-6" class="absolute left-[158px] top-20 w-6 h-6 rounded-full border border-slate-700 bg-slate-900 flex items-center justify-center"></div>
+        </div>
+
+        <div id="c11-status" class="text-xs font-mono text-emerald-400 font-semibold mt-1">explore • backtrack</div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: N-Queens, Sudoku solver, subsets, permutations</span>
+        <button onclick="triggerCard(11)" class="p-1.5 hover:text-emerald-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 12: Binary Tree Traversal -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-purple-400/50 transition-all shadow-lg hover:shadow-purple-400/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-purple-400 flex items-center gap-2">
+          <span>12. Tree Traversal</span>
+        </h2>
+        <span class="text-[11px] font-mono text-slate-400">In-Order / Level</span>
+      </div>
+
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-2 relative select-none">
+        <span class="absolute bottom-1 right-2 text-[10px] font-mono text-slate-600/60 font-semibold tracking-wider">sudhir-react</span>
+        
+        <div class="relative w-48 h-24">
+          <svg class="absolute inset-0 w-full h-full stroke-slate-700" stroke-width="2">
+            <line x1="96" y1="16" x2="52" y2="44" />
+            <line x1="96" y1="16" x2="140" y2="44" />
+            <line x1="52" y1="44" x2="32" y2="72" />
+            <line x1="52" y1="44" x2="72" y2="72" />
+            <line x1="140" y1="44" x2="120" y2="72" />
+            <line x1="140" y1="44" x2="160" y2="72" />
+          </svg>
+          <div id="tree-4" class="absolute left-[84px] top-1 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 font-mono text-xs flex items-center justify-center">4</div>
+          <div id="tree-2" class="absolute left-[40px] top-8 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 font-mono text-xs flex items-center justify-center">2</div>
+          <div id="tree-6" class="absolute left-[128px] top-8 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 font-mono text-xs flex items-center justify-center">6</div>
+          <div id="tree-1" class="absolute left-[20px] top-15 w-6 h-6 rounded-full border-2 border-cyan-400 bg-cyan-950 font-mono text-xs flex items-center justify-center text-cyan-200">1</div>
+          <div id="tree-3" class="absolute left-[60px] top-15 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 font-mono text-xs flex items-center justify-center">3</div>
+          <div id="tree-5" class="absolute left-[108px] top-15 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 font-mono text-xs flex items-center justify-center">5</div>
+          <div id="tree-7" class="absolute left-[148px] top-15 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 font-mono text-xs flex items-center justify-center">7</div>
+        </div>
+
+        <div class="mt-2 flex items-center gap-2 font-mono text-xs">
+          <span class="text-slate-400">out:</span>
+          <span id="c12-out" class="text-cyan-300 font-bold">[1, 2, 3, 4, 5, 6, 7]</span>
+        </div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: Validate BST, path sum, invert tree</span>
+        <button onclick="triggerCard(12)" class="p-1.5 hover:text-purple-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 13: Depth-First Search -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-cyan-400/50 transition-all shadow-lg hover:shadow-cyan-400/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-cyan-400 flex items-center gap-2">
+          <span>13. Depth-First Search</span>
+        </h2>
+        <span class="text-[11px] font-mono text-slate-400">stack • go deep</span>
+      </div>
+
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-2 relative select-none">
+        <span class="absolute bottom-1 right-2 text-[10px] font-mono text-slate-600/60 font-semibold tracking-wider">sudhir-react</span>
+        
+        <!-- Pentagonal Graph Layout -->
+        <div class="relative w-48 h-28">
+          <svg class="absolute inset-0 w-full h-full stroke-slate-700" stroke-width="2">
+            <line x1="96" y1="20" x2="36" y2="48" />
+            <line x1="96" y1="20" x2="156" y2="48" />
+            <line x1="36" y1="48" x2="56" y2="92" />
+            <line x1="156" y1="48" x2="136" y2="92" />
+            <line x1="56" y1="92" x2="136" y2="92" />
+          </svg>
+          <div id="dfs-B" class="absolute left-[84px] top-2 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 font-mono text-[11px] flex items-center justify-center">B</div>
+          <div id="dfs-A" class="absolute left-[24px] top-9 w-6 h-6 rounded-full border-2 border-cyan-400 bg-cyan-950 font-mono text-[11px] flex items-center justify-center text-cyan-200">A</div>
+          <div id="dfs-C" class="absolute left-[144px] top-9 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 font-mono text-[11px] flex items-center justify-center">C</div>
+          <div id="dfs-D" class="absolute left-[44px] top-20 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 font-mono text-[11px] flex items-center justify-center">D</div>
+          <div id="dfs-E" class="absolute left-[124px] top-20 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 font-mono text-[11px] flex items-center justify-center">E</div>
+        </div>
+
+        <div class="flex items-center gap-2 font-mono text-xs mt-1">
+          <span class="text-slate-400">DFS:</span>
+          <span id="c13-path" class="text-cyan-300 font-bold">A → B → C → E → D</span>
+        </div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: Topological sort, connected components, cycle detect</span>
+        <button onclick="triggerCard(13)" class="p-1.5 hover:text-cyan-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 14: Breadth-First Search -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-emerald-400/50 transition-all shadow-lg hover:shadow-emerald-400/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-emerald-400 flex items-center gap-2">
+          <span>14. Breadth-First Search</span>
+        </h2>
+        <span class="text-[11px] font-mono text-slate-400">queue • by level</span>
+      </div>
+
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-2 relative select-none">
+        <span class="absolute bottom-1 right-2 text-[10px] font-mono text-slate-600/60 font-semibold tracking-wider">sudhir-react</span>
+        
+        <div class="relative w-48 h-28">
+          <svg class="absolute inset-0 w-full h-full stroke-slate-700" stroke-width="2">
+            <line x1="96" y1="20" x2="36" y2="48" />
+            <line x1="96" y1="20" x2="156" y2="48" />
+            <line x1="36" y1="48" x2="56" y2="92" />
+            <line x1="156" y1="48" x2="136" y2="92" />
+            <line x1="56" y1="92" x2="136" y2="92" />
+          </svg>
+          <div id="bfs-B" class="absolute left-[84px] top-2 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 font-mono text-[11px] flex items-center justify-center">B</div>
+          <div id="bfs-A" class="absolute left-[24px] top-9 w-6 h-6 rounded-full border-2 border-emerald-400 bg-emerald-950 font-mono text-[11px] flex items-center justify-center text-emerald-200">A</div>
+          <div id="bfs-C" class="absolute left-[144px] top-9 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 font-mono text-[11px] flex items-center justify-center">C</div>
+          <div id="bfs-D" class="absolute left-[44px] top-20 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 font-mono text-[11px] flex items-center justify-center">D</div>
+          <div id="bfs-E" class="absolute left-[124px] top-20 w-6 h-6 rounded-full border border-slate-600 bg-slate-900 font-mono text-[11px] flex items-center justify-center">E</div>
+        </div>
+
+        <div class="flex items-center gap-2 font-mono text-xs mt-1">
+          <span class="text-slate-400">BFS:</span>
+          <span id="c14-queue" class="text-emerald-300 font-bold">[A] → [B, D] → [C, E]</span>
+        </div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: Shortest path in unweighted graph, level order</span>
+        <button onclick="triggerCard(14)" class="p-1.5 hover:text-emerald-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card 15: Dynamic Programming -->
+    <div class="pattern-card bg-[#0e111a] border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between group hover:border-rose-400/50 transition-all shadow-lg hover:shadow-rose-400/10">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-bold text-rose-400 flex items-center gap-2">
+          <span>15. Dynamic Programming</span>
+        </h2>
+        <span class="text-[11px] font-mono text-slate-400">dp[i][j] = ↑ + ←</span>
+      </div>
+
+      <div class="h-44 w-full bg-[#080a10] rounded-xl border border-slate-800/60 flex flex-col items-center justify-center p-2 relative select-none">
+        <span class="absolute bottom-1 right-2 text-[10px] font-mono text-slate-600/60 font-semibold tracking-wider">sudhir-react</span>
+        
+        <!-- 4x4 Grid DP Table -->
+        <div id="c15-grid" class="grid grid-cols-4 gap-1 p-1 bg-slate-900/90 rounded-lg border border-slate-800">
+          <!-- 16 DP Cells -->
+        </div>
+
+        <div class="text-[10px] font-mono text-slate-500 mt-1">base case = 1 • paths to (3,3)</div>
+      </div>
+
+      <div class="mt-3 flex items-center justify-between text-xs text-slate-400">
+        <span>Use: 0/1 Knapsack, LCS, edit distance, unique paths</span>
+        <button onclick="triggerCard(15)" class="p-1.5 hover:text-rose-300 transition-colors" title="Replay">
+          <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Interactive Cheat Sheet Footer with Branding -->
+  <footer id="branding" class="w-full max-w-7xl px-4 py-8 mb-8 border-t border-slate-800/80 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
+    <div class="flex items-center gap-3">
+      <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
+      <span class="text-slate-300">Engineered with high performance React & Web primitives</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span>Curated & Animated by</span>
+      <span class="text-sky-400 font-bold tracking-wider px-2.5 py-1 rounded-md bg-sky-500/10 border border-sky-400/30">
+        sudhir-react
+      </span>
+    </div>
+  </footer>
+
+  <!-- Animation Logic Engine -->
+  <script>
+    let isGloballyPlaying = true;
+    const intervals = {};
+
+    // Helper: Initialize lucide icons
+    function initIcons() {
+      lucide.createIcons();
+    }
+
+    // ==========================================
+    // 1. Two Pointers
+    // ==========================================
+    const arr1 = [1, 3, 5, 7, 9, 11];
+    let l1 = 0, r1 = arr1.length - 1;
+    function renderCard1() {
+      const container = document.getElementById('c1-array');
+      container.innerHTML = '';
+      arr1.forEach((val, idx) => {
+        const isL = idx === l1;
+        const isR = idx === r1;
+        const div = document.createElement('div');
+        div.className = `w-8 h-8 rounded-lg flex items-center justify-center font-mono font-bold text-xs transition-all duration-300 ${
+          isL ? 'border-2 border-emerald-400 bg-emerald-950/80 text-emerald-300 scale-110 shadow-[0_0_10px_rgba(16,185,129,0.5)]' :
+          isR ? 'border-2 border-rose-400 bg-rose-950/80 text-rose-300 scale-110 shadow-[0_0_10px_rgba(244,63,94,0.5)]' :
+          'border border-slate-700 bg-slate-900 text-slate-300'
+        }`;
+        div.innerText = val;
+        container.appendChild(div);
+      });
+      const sum = arr1[l1] + arr1[r1];
+      const info = document.getElementById('c1-info');
+      if (sum === 16) {
+        info.innerHTML = `<span class="text-emerald-400 font-bold">Match Found! ${arr1[l1]} + ${arr1[r1]} = 16</span>`;
+      } else {
+        info.innerHTML = `L(${arr1[l1]}) + R(${arr1[r1]}) = ${sum} ${sum < 16 ? '< 16 (L→)' : '> 16 (←R)'}`;
+      }
+    }
+    function stepCard1() {
+      if (l1 < r1) {
+        const sum = arr1[l1] + arr1[r1];
+        if (sum === 16) {
+          // pause on match, then reset
+          setTimeout(() => {
+            l1 = 0;
+            r1 = arr1.length - 1;
+            renderCard1();
+          }, 1200);
+          return;
+        } else if (sum < 16) {
+          l1++;
+        } else {
+          r1--;
+        }
+      } else {
+        l1 = 0;
+        r1 = arr1.length - 1;
+      }
+      renderCard1();
+    }
+
+    // ==========================================
+    // 2. Sliding Window
+    // ==========================================
+    const arr2 = [2, 1, 5, 1, 3, 2, 4];
+    const k2 = 3;
+    let start2 = 0;
+    function initCard2() {
+      const container = document.getElementById('c2-container');
+      // Keep overlay inside
+      container.innerHTML = '<div id="c2-window-box" class="absolute -top-1.5 -bottom-1.5 border-2 border-amber-400 rounded-lg bg-amber-400/15 transition-all duration-500 pointer-events-none shadow-[0_0_12px_rgba(251,191,36,0.3)]"></div>';
+      arr2.forEach((val, idx) => {
+        const div = document.createElement('div');
+        div.id = `c2-cell-${idx}`;
+        div.className = 'w-7 h-7 rounded-md flex items-center justify-center font-mono font-bold text-xs border border-slate-700 bg-slate-900 text-slate-300 z-10 transition-colors';
+        div.innerText = val;
+        container.appendChild(div);
+      });
+      renderCard2();
+    }
+    function renderCard2() {
+      const box = document.getElementById('c2-window-box');
+      if (!box) return;
+      const firstCell = document.getElementById(`c2-cell-${start2}`);
+      if (firstCell) {
+        const cellWidth = 28; // w-7 is 1.75rem ~ 28px
+        const gap = 8;
+        const offset = start2 * (cellWidth + gap);
+        const windowWidth = (k2 * cellWidth) + ((k2 - 1) * gap);
+        box.style.left = `${offset - 4}px`;
+        box.style.width = `${windowWidth + 8}px`;
+      }
+      let currentSum = 0;
+      for (let i = start2; i < start2 + k2; i++) {
+        currentSum += arr2[i];
+      }
+      document.getElementById('c2-sum-badge').innerText = `Sum: ${currentSum}`;
+    }
+    function stepCard2() {
+      start2 = (start2 + 1) % (arr2.length - k2 + 1);
+      renderCard2();
+    }
+
+    // ==========================================
+    // 3. Binary Search
+    // ==========================================
+    const arr3 = [1, 3, 5, 7, 9, 11, 13];
+    const target3 = 9;
+    let l3 = 0, r3 = arr3.length - 1;
+    function renderCard3() {
+      const container = document.getElementById('c3-array');
+      const labels = document.getElementById('c3-labels');
+      container.innerHTML = '';
+      labels.innerHTML = '';
+      const mid = Math.floor((l3 + r3) / 2);
+
+      arr3.forEach((val, idx) => {
+        const inScope = idx >= l3 && idx <= r3;
+        const isMid = idx === mid;
+        const cell = document.createElement('div');
+        cell.className = `w-7 h-7 rounded-md flex items-center justify-center font-mono font-bold text-xs transition-all ${
+          isMid ? 'border-2 border-amber-400 bg-amber-400/20 text-amber-300 shadow-[0_0_8px_rgba(251,191,36,0.6)]' :
+          inScope ? 'border border-emerald-500/50 bg-slate-900 text-slate-200' :
+          'border border-slate-800 bg-slate-950/60 text-slate-600 opacity-30'
+        }`;
+        cell.innerText = val;
+        container.appendChild(cell);
+
+        const lbl = document.createElement('div');
+        lbl.className = 'w-7 text-center font-mono text-[10px] font-bold';
+        if (idx === l3 && idx === r3 && idx === mid) lbl.innerHTML = '<span class="text-amber-400">LMR</span>';
+        else if (idx === l3) lbl.innerHTML = '<span class="text-emerald-400">L</span>';
+        else if (idx === r3) lbl.innerHTML = '<span class="text-rose-400">R</span>';
+        else if (idx === mid) lbl.innerHTML = '<span class="text-amber-400">M</span>';
+        else lbl.innerHTML = '&nbsp;';
+        labels.appendChild(lbl);
+      });
+
+      const status = document.getElementById('c3-status');
+      if (arr3[mid] === target3) {
+        status.innerHTML = `<span class="text-emerald-400 font-bold">Target 9 found at Index ${mid}!</span>`;
+      } else {
+        status.innerText = `L=${l3}, R=${r3}, Mid=${mid} (${arr3[mid]})`;
+      }
+    }
+    function stepCard3() {
+      const mid = Math.floor((l3 + r3) / 2);
+      if (arr3[mid] === target3) {
+        setTimeout(() => {
+          l3 = 0;
+          r3 = arr3.length - 1;
+          renderCard3();
+        }, 1200);
+      } else if (arr3[mid] < target3) {
+        l3 = mid + 1;
+        renderCard3();
+      } else {
+        r3 = mid - 1;
+        renderCard3();
+      }
+    }
+
+    // ==========================================
+    // 4. Frequency Counting
+    // ==========================================
+    const stream4 = ['a', 'b', 'a', 'c', 'b'];
+    let idx4 = 0;
+    const counts4 = { a: 0, b: 0, c: 0 };
+    function renderCard4() {
+      const stContainer = document.getElementById('c4-stream');
+      stContainer.innerHTML = '';
+      stream4.forEach((ch, i) => {
+        const div = document.createElement('div');
+        const active = i === idx4;
+        div.className = `w-6 h-6 rounded flex items-center justify-center font-mono font-bold text-xs transition-all ${
+          active ? 'bg-cyan-500 text-slate-950 scale-110 shadow-[0_0_10px_#06b6d4]' :
+          i < idx4 ? 'bg-slate-800 text-slate-400' : 'border border-slate-700 bg-slate-900 text-slate-300'
+        }`;
+        div.innerText = ch;
+        stContainer.appendChild(div);
+      });
+
+      const body = document.getElementById('c4-table-body');
+      body.innerHTML = `
+        <div class="grid grid-cols-2 px-2 py-0.5 text-center ${stream4[idx4] === 'a' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : ''}">
+          <span>a</span><span>${counts4.a}</span>
+        </div>
+        <div class="grid grid-cols-2 px-2 py-0.5 text-center ${stream4[idx4] === 'b' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : ''}">
+          <span>b</span><span>${counts4.b}</span>
+        </div>
+        <div class="grid grid-cols-2 px-2 py-0.5 text-center ${stream4[idx4] === 'c' ? 'bg-cyan-500/20 text-cyan-300 font-bold' : ''}">
+          <span>c</span><span>${counts4.c}</span>
+        </div>
+      `;
+    }
+    function stepCard4() {
+      const curr = stream4[idx4];
+      counts4[curr] = (counts4[curr] || 0) + 1;
+      idx4++;
+      if (idx4 >= stream4.length) {
+        setTimeout(() => {
+          counts4.a = 0; counts4.b = 0; counts4.c = 0;
+          idx4 = 0;
+          renderCard4();
+        }, 1200);
+      } else {
+        renderCard4();
+      }
+    }
+
+    // ==========================================
+    // 5. Matrix Traversal (Spiral 4x4)
+    // ==========================================
+    const spiralOrder = [
+      0, 1, 2, 3,
+      7, 11, 15, 14,
+      13, 12, 8, 4,
+      5, 6, 10, 9
+    ];
+    let step5 = 0;
+    function initCard5() {
+      const grid = document.getElementById('c5-grid');
+      grid.innerHTML = '';
+      for (let i = 0; i < 16; i++) {
+        const cell = document.createElement('div');
+        cell.id = `c5-cell-${i}`;
+        cell.className = 'w-7 h-7 rounded border border-slate-800 bg-slate-900 flex items-center justify-center font-mono text-[10px] text-slate-400 cell-transition';
+        cell.innerText = i + 1;
+        grid.appendChild(cell);
+      }
+      renderCard5();
+    }
+    function renderCard5() {
+      for (let i = 0; i < 16; i++) {
+        const cell = document.getElementById(`c5-cell-${i}`);
+        if (!cell) continue;
+        const visitedIndex = spiralOrder.slice(0, step5 + 1).indexOf(i);
+        if (spiralOrder[step5] === i) {
+          cell.className = 'w-7 h-7 rounded border-2 border-emerald-400 bg-emerald-400 text-slate-950 font-bold flex items-center justify-center font-mono text-xs scale-105 shadow-[0_0_12px_#10b981]';
+        } else if (visitedIndex !== -1) {
+          cell.className = 'w-7 h-7 rounded border border-emerald-500/40 bg-emerald-950/40 text-emerald-300 flex items-center justify-center font-mono text-[10px]';
+        } else {
+          cell.className = 'w-7 h-7 rounded border border-slate-800 bg-slate-900 flex items-center justify-center font-mono text-[10px] text-slate-500';
+        }
+      }
+    }
+    function stepCard5() {
+      step5 = (step5 + 1) % spiralOrder.length;
+      renderCard5();
+    }
+
+    // ==========================================
+    // 6. Monotonic Stack
+    // ==========================================
+    const arr6 = [1, 3, 2, 4];
+    let idx6 = 0;
+    let stack6 = [];
+    function renderCard6() {
+      const inputEl = document.getElementById('c6-input');
+      inputEl.innerHTML = '';
+      arr6.forEach((n, i) => {
+        const div = document.createElement('div');
+        div.className = `w-7 h-7 rounded flex items-center justify-center font-mono font-bold text-xs ${
+          i === idx6 ? 'border-2 border-amber-400 bg-amber-400/20 text-amber-300' :
+          i < idx6 ? 'bg-slate-800 text-slate-500' : 'border border-slate-700 bg-slate-900 text-slate-300'
+        }`;
+        div.innerText = n;
+        inputEl.appendChild(div);
+      });
+
+      const stackEl = document.getElementById('c6-stack');
+      stackEl.innerHTML = '';
+      if (stack6.length === 0) {
+        stackEl.innerHTML = '<span class="text-[10px] font-mono text-slate-600 py-1">empty</span>';
+      } else {
+        stack6.forEach(val => {
+          const item = document.createElement('div');
+          item.className = 'w-6 h-6 rounded bg-sky-500/20 border border-sky-400 text-sky-300 font-mono text-xs flex items-center justify-center font-bold';
+          item.innerText = val;
+          stackEl.appendChild(item);
+        });
+      }
+    }
+    function stepCard6() {
+      if (idx6 < arr6.length) {
+        const curr = arr6[idx6];
+        // Maintain monotonic increasing stack: pop while top > curr
+        while (stack6.length > 0 && stack6[stack6.length - 1] > curr) {
+          stack6.pop();
+        }
+        stack6.push(curr);
+        idx6++;
+      } else {
+        idx6 = 0;
+        stack6 = [];
+      }
+      renderCard6();
+    }
+
+    // ==========================================
+    // 7. Prefix Sum
+    // ==========================================
+    const nums7 = [1, 2, 3, 4];
+    let step7 = 0;
+    function renderCard7() {
+      const nEl = document.getElementById('c7-nums');
+      const pEl = document.getElementById('c7-prefix');
+      nEl.innerHTML = '';
+      pEl.innerHTML = '';
+
+      let running = 0;
+      nums7.forEach((v, i) => {
+        running += v;
+        const cellN = document.createElement('div');
+        cellN.className = `w-7 h-7 rounded border border-slate-700 bg-slate-900 text-slate-300 flex items-center justify-center font-mono text-xs ${
+          i === step7 ? 'border-cyan-400 bg-cyan-950 text-cyan-300 font-bold' : ''
+        }`;
+        cellN.innerText = v;
+        nEl.appendChild(cellN);
+
+        const cellP = document.createElement('div');
+        if (i <= step7) {
+          cellP.className = 'w-7 h-7 rounded border-2 border-emerald-400 bg-emerald-950/80 text-emerald-300 font-bold flex items-center justify-center font-mono text-xs shadow-[0_0_8px_rgba(16,185,129,0.3)]';
+          cellP.innerText = running;
+        } else {
+          cellP.className = 'w-7 h-7 rounded border border-slate-800 bg-slate-950 text-slate-700 flex items-center justify-center font-mono text-xs';
+          cellP.innerText = '0';
+        }
+        pEl.appendChild(cellP);
+      });
+    }
+    function stepCard7() {
+      step7 = (step7 + 1) % nums7.length;
+      renderCard7();
+    }
+
+    // ==========================================
+    // 8. Overlapping Intervals
+    // ==========================================
+    let state8 = 0; // 0: separate [1,4] & [3,6], 1: overlapping highlight, 2: merged [1,6]
+    function renderCard8() {
+      const display = document.getElementById('c8-display');
+      const status = document.getElementById('c8-status');
+      if (state8 === 0) {
+        display.innerHTML = `
+          <div class="px-3 py-1 rounded bg-sky-500/20 border border-sky-400 text-sky-300 font-mono text-xs font-bold">[1, 4]</div>
+          <div class="px-3 py-1 rounded bg-emerald-500/20 border border-emerald-400 text-emerald-300 font-mono text-xs font-bold">[3, 6]</div>
+        `;
+        status.innerText = 'Comparing [1, 4] & [3, 6]';
+        status.className = 'mt-2 text-xs font-mono text-slate-400 z-10';
+      } else if (state8 === 1) {
+        display.innerHTML = `
+          <div class="px-3 py-1 rounded bg-rose-500/20 border border-rose-400 text-rose-300 font-mono text-xs font-bold animate-pulse">Overlap Detected! (3 < 4)</div>
+        `;
+        status.innerText = '↓ Merging: [1, max(4,6)]';
+        status.className = 'mt-2 text-xs font-mono text-pink-400 font-bold z-10';
+      } else {
+        display.innerHTML = `
+          <div class="px-4 py-1.5 rounded-lg bg-pink-500/30 border-2 border-pink-400 text-pink-200 font-mono text-sm font-bold shadow-[0_0_15px_rgba(244,63,94,0.4)]">[1, 6]</div>
+        `;
+        status.innerText = 'Merged Interval: [1, 6]';
+        status.className = 'mt-2 text-xs font-mono text-emerald-400 font-bold z-10';
+      }
+    }
+    function stepCard8() {
+      state8 = (state8 + 1) % 3;
+      renderCard8();
+    }
+
+    // ==========================================
+    // 9. Greedy Coin Change (40 = 25 + 10 + 5)
+    // ==========================================
+    const coins9 = [25, 10, 5, 1];
+    let step9 = 0; // step 0: nothing, 1: picked 25, 2: picked 10, 3: picked 5 (Total 40)
+    function renderCard9() {
+      const cCont = document.getElementById('c9-coins');
+      cCont.innerHTML = '';
+      coins9.forEach((c) => {
+        const div = document.createElement('div');
+        const active = (step9 === 0 && c === 25) || (step9 === 1 && c === 10) || (step9 === 2 && c === 5);
+        div.className = `w-8 h-8 rounded-full border flex items-center justify-center font-mono font-bold text-xs ${
+          active ? 'border-amber-400 bg-amber-400/30 text-amber-300 scale-110 shadow-[0_0_10px_rgba(251,191,36,0.6)]' :
+          'border-slate-700 bg-slate-900 text-slate-400'
+        }`;
+        div.innerText = c;
+        cCont.appendChild(div);
+      });
+
+      const pickedCont = document.getElementById('c9-picked');
+      pickedCont.innerHTML = '';
+      const list = step9 === 0 ? [] : step9 === 1 ? [25] : step9 === 2 ? [25, 10] : [25, 10, 5];
+      list.forEach(c => {
+        const p = document.createElement('div');
+        p.className = 'w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-300 font-mono text-[11px] font-bold flex items-center justify-center';
+        p.innerText = c;
+        pickedCont.appendChild(p);
+      });
+      if (list.length === 0) {
+        pickedCont.innerHTML = '<span class="text-[10px] text-slate-600 font-mono">none</span>';
+      }
+    }
+    function stepCard9() {
+      step9 = (step9 + 1) % 4;
+      renderCard9();
+    }
+
+    // ==========================================
+    // 10. Top K Elements (Min Heap)
+    // ==========================================
+    let step10 = 0;
+    function renderCard10() {
+      const n1 = document.getElementById('c10-node-1');
+      if (step10 % 2 === 0) {
+        n1.className = 'absolute left-[76px] top-1 w-6 h-6 rounded-full border-2 border-purple-400 bg-purple-950/80 text-[11px] font-mono font-bold flex items-center justify-center text-purple-200 shadow-[0_0_8px_#c084fc]';
+      } else {
+        n1.className = 'absolute left-[76px] top-1 w-6 h-6 rounded-full border-2 border-emerald-400 bg-emerald-950/80 text-[11px] font-mono font-bold flex items-center justify-center text-emerald-200';
+      }
+    }
+    function stepCard10() {
+      step10++;
+      renderCard10();
+    }
+
+    // ==========================================
+    // 11. Backtracking (Decision Tree)
+    // ==========================================
+    const btOrder = [0, 1, 3, 1, 4, 1, 0, 2, 5, 2, 6, 2, 0];
+    let step11 = 0;
+    function renderCard11() {
+      for (let i = 0; i <= 6; i++) {
+        const node = document.getElementById(`bt-node-${i}`);
+        if (!node) continue;
+        if (btOrder[step11] === i) {
+          node.className = 'absolute w-6 h-6 rounded-full border-2 border-cyan-400 bg-cyan-400 text-slate-950 font-bold flex items-center justify-center text-xs scale-125 shadow-[0_0_12px_#06b6d4] transition-all duration-300';
+        } else {
+          node.className = 'absolute w-6 h-6 rounded-full border border-slate-700 bg-slate-900 flex items-center justify-center transition-all duration-300';
+        }
+      }
+    }
+    function stepCard11() {
+      step11 = (step11 + 1) % btOrder.length;
+      renderCard11();
+    }
+
+    // ==========================================
+    // 12. Binary Tree In-Order Traversal
+    // Order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
+    // ==========================================
+    const inOrder12 = [1, 2, 3, 4, 5, 6, 7];
+    let step12 = 0;
+    function renderCard12() {
+      inOrder12.forEach((val) => {
+        const node = document.getElementById(`tree-${val}`);
+        if (!node) return;
+        if (inOrder12[step12] === val) {
+          node.className = 'w-6 h-6 rounded-full border-2 border-purple-400 bg-purple-500 text-slate-950 font-bold font-mono text-xs flex items-center justify-center shadow-[0_0_12px_#c084fc] scale-110';
+        } else if (inOrder12.slice(0, step12).includes(val)) {
+          node.className = 'w-6 h-6 rounded-full border border-purple-400/50 bg-purple-950/60 text-purple-300 font-mono text-xs flex items-center justify-center';
+        } else {
+          node.className = 'w-6 h-6 rounded-full border border-slate-700 bg-slate-900 font-mono text-xs flex items-center justify-center text-slate-400';
+        }
+      });
+      document.getElementById('c12-out').innerText = `[${inOrder12.slice(0, step12 + 1).join(', ')}]`;
+    }
+    function stepCard12() {
+      step12 = (step12 + 1) % inOrder12.length;
+      renderCard12();
+    }
+
+    // ==========================================
+    // 13. Depth-First Search (A -> B -> C -> E -> D)
+    // ==========================================
+    const dfsNodes = ['A', 'B', 'C', 'E', 'D'];
+    let step13 = 0;
+    function renderCard13() {
+      ['A', 'B', 'C', 'D', 'E'].forEach(id => {
+        const el = document.getElementById(`dfs-${id}`);
+        if (!el) return;
+        if (dfsNodes[step13] === id) {
+          el.className = 'w-6 h-6 rounded-full border-2 border-cyan-400 bg-cyan-400 text-slate-950 font-bold font-mono text-[11px] flex items-center justify-center shadow-[0_0_12px_#06b6d4] scale-110';
+        } else if (dfsNodes.slice(0, step13).includes(id)) {
+          el.className = 'w-6 h-6 rounded-full border border-cyan-500/50 bg-cyan-950 text-cyan-300 font-mono text-[11px] flex items-center justify-center';
+        } else {
+          el.className = 'w-6 h-6 rounded-full border border-slate-700 bg-slate-900 font-mono text-[11px] flex items-center justify-center text-slate-400';
+        }
+      });
+    }
+    function stepCard13() {
+      step13 = (step13 + 1) % dfsNodes.length;
+      renderCard13();
+    }
+
+    // ==========================================
+    // 14. Breadth-First Search (Queue / Level)
+    // ==========================================
+    const bfsLevels = [['A'], ['B', 'D'], ['C', 'E']];
+    let step14 = 0;
+    function renderCard14() {
+      ['A', 'B', 'C', 'D', 'E'].forEach(id => {
+        const el = document.getElementById(`bfs-${id}`);
+        if (!el) return;
+        const currentGroup = bfsLevels[step14];
+        if (currentGroup.includes(id)) {
+          el.className = 'w-6 h-6 rounded-full border-2 border-emerald-400 bg-emerald-400 text-slate-950 font-bold font-mono text-[11px] flex items-center justify-center shadow-[0_0_12px_#10b981] scale-110';
+        } else {
+          el.className = 'w-6 h-6 rounded-full border border-slate-700 bg-slate-900 font-mono text-[11px] flex items-center justify-center text-slate-400';
+        }
+      });
+    }
+    function stepCard14() {
+      step14 = (step14 + 1) % bfsLevels.length;
+      renderCard14();
+    }
+
+    // ==========================================
+    // 15. Dynamic Programming (Unique Paths Grid)
+    // ==========================================
+    const dpGrid = [
+      [1, 1, 1, 1],
+      [1, 2, 3, 4],
+      [1, 3, 6, 10],
+      [1, 4, 10, 20]
+    ];
+    let step15 = 0; // 0 to 15
+    function initCard15() {
+      const container = document.getElementById('c15-grid');
+      container.innerHTML = '';
+      for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 4; c++) {
+          const div = document.createElement('div');
+          div.id = `dp-${r}-${c}`;
+          div.className = 'w-7 h-7 rounded border border-slate-800 bg-slate-900 flex items-center justify-center font-mono text-[10px] text-slate-500 cell-transition';
+          div.innerText = '';
+          container.appendChild(div);
+        }
+      }
+      renderCard15();
+    }
+    function renderCard15() {
+      let count = 0;
+      for (let r = 0; r < 4; r++) {
+        for (let c = 0; c < 4; c++) {
+          const cell = document.getElementById(`dp-${r}-${c}`);
+          if (!cell) continue;
+          if (count === step15) {
+            cell.className = 'w-7 h-7 rounded border-2 border-rose-400 bg-rose-500 text-slate-950 font-bold flex items-center justify-center font-mono text-xs scale-105 shadow-[0_0_12px_#f43f5e]';
+            cell.innerText = dpGrid[r][c];
+          } else if (count < step15) {
+            cell.className = 'w-7 h-7 rounded border border-rose-500/40 bg-rose-950/40 text-rose-300 flex items-center justify-center font-mono text-[10px]';
+            cell.innerText = dpGrid[r][c];
+          } else {
+            cell.className = 'w-7 h-7 rounded border border-slate-800 bg-slate-900 flex items-center justify-center font-mono text-[10px] text-slate-600';
+            cell.innerText = '';
+          }
+          count++;
+        }
+      }
+    }
+    function stepCard15() {
+      step15 = (step15 + 1) % 16;
+      renderCard15();
+    }
+
+    // Trigger individual card replay manually
+    window.triggerCard = function(num) {
+      if (num === 1) { l1 = 0; r1 = arr1.length - 1; renderCard1(); }
+      if (num === 2) { start2 = 0; renderCard2(); }
+      if (num === 3) { l3 = 0; r3 = arr3.length - 1; renderCard3(); }
+      if (num === 4) { idx4 = 0; counts4.a = counts4.b = counts4.c = 0; renderCard4(); }
+      if (num === 5) { step5 = 0; renderCard5(); }
+      if (num === 6) { idx6 = 0; stack6 = []; renderCard6(); }
+      if (num === 7) { step7 = 0; renderCard7(); }
+      if (num === 8) { state8 = 0; renderCard8(); }
+      if (num === 9) { step9 = 0; renderCard9(); }
+      if (num === 10) { step10 = 0; renderCard10(); }
+      if (num === 11) { step11 = 0; renderCard11(); }
+      if (num === 12) { step12 = 0; renderCard12(); }
+      if (num === 13) { step13 = 0; renderCard13(); }
+      if (num === 14) { step14 = 0; renderCard14(); }
+      if (num === 15) { step15 = 0; renderCard15(); }
+    };
+
+    // Master Animation Loop
+    function startMasterIntervals() {
+      intervals.c1 = setInterval(stepCard1, 1400);
+      intervals.c2 = setInterval(stepCard2, 1300);
+      intervals.c3 = setInterval(stepCard3, 1400);
+      intervals.c4 = setInterval(stepCard4, 1100);
+      intervals.c5 = setInterval(stepCard5, 550);
+      intervals.c6 = setInterval(stepCard6, 1200);
+      intervals.c7 = setInterval(stepCard7, 1100);
+      intervals.c8 = setInterval(stepCard8, 1600);
+      intervals.c9 = setInterval(stepCard9, 1300);
+      intervals.c10 = setInterval(stepCard10, 1000);
+      intervals.c11 = setInterval(stepCard11, 750);
+      intervals.c12 = setInterval(stepCard12, 900);
+      intervals.c13 = setInterval(stepCard13, 900);
+      intervals.c14 = setInterval(stepCard14, 1200);
+      intervals.c15 = setInterval(stepCard15, 600);
+    }
+
+    function clearAllIntervals() {
+      Object.keys(intervals).forEach(key => clearInterval(intervals[key]));
+    }
+
+    // Toggle Play/Pause
+    document.getElementById('toggle-all-btn').addEventListener('click', () => {
+      const icon = document.getElementById('global-pause-icon');
+      const text = document.getElementById('global-pause-text');
+      if (isGloballyPlaying) {
+        clearAllIntervals();
+        isGloballyPlaying = false;
+        text.innerText = 'Resume Animations';
+        icon.setAttribute('data-lucide', 'play');
+      } else {
+        startMasterIntervals();
+        isGloballyPlaying = true;
+        text.innerText = 'Pause All Animations';
+        icon.setAttribute('data-lucide', 'pause');
+      }
+      initIcons();
+    });
+
+    // Reset All Visualizers
+    document.getElementById('reset-all-btn').addEventListener('click', () => {
+      for (let i = 1; i <= 15; i++) {
+        window.triggerCard(i);
+      }
+    });
+
+    // Window load initializations
+    window.onload = function() {
+      initIcons();
+      renderCard1();
+      initCard2();
+      renderCard3();
+      renderCard4();
+      initCard5();
+      renderCard6();
+      renderCard7();
+      renderCard8();
+      renderCard9();
+      renderCard10();
+      renderCard11();
+      renderCard12();
+      renderCard13();
+      renderCard14();
+      initCard15();
+
+      startMasterIntervals();
+    };
+  </script>
+</body>
+</html>
