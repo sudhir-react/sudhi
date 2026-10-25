@@ -34,3 +34,8 @@ let a = 10;
 //Snake Casing or camel Casing
 let birthYear = 1997; //Camel Casing
 let birth_year = 1998; //Snake casing 
+
+let x = 5;
+let y =x;
+x = 15;
+console.log(y);
