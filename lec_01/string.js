@@ -10,6 +10,9 @@ console.log(str2.concat(str));
 console.log(str.length);
 console.log(str.indexOf('S'));
 console.log(str.indexOf('is'));
+console.log(str.indexOf('i', 8));
+console.log(str.lastIndexOf(str));
+
 
 
 
