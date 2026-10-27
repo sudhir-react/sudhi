@@ -18,8 +18,14 @@ The final output should be printed correctly.
 num1 and num2 are the base and height of the triangle respectively. Use the appropriate formula to evaluate the area of a triangle by using them and store it in the variable name 'answer'.
  */
 
-function AreaOfTriangle(num1,num2){
+function AreaOfTriangle(base,height){
     let answer;
-    answer = 0.5*(num1*num2)
+    answer = 0.5*(base*height)
 
     return answer;}
+
+const base = 20;
+const height = 10;
+const area = AreaOfTriangle(base, height);
+
+console.log(`Area of triangle is: ${area}`);
