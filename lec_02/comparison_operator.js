@@ -19,5 +19,10 @@ let birthYear = 17;
 let rightToVote =birthYear >= 18;
 console.log(rightToVote);
 
+let m = 11;
+let n = 11;
+console.log(m === n);
+
+
 
 
